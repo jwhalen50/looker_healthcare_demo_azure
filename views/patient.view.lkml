@@ -19,19 +19,24 @@ view: patient {
     sql: ${TABLE}.age ;;
   }
 
-  dimension: city {
-    type: string
-    sql: ${TABLE}.city ;;
-  }
-
   dimension: country {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
-  dimension: dob {
-    type: string
+  dimension_group: dob {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
     sql: ${TABLE}.dob ;;
   }
 
@@ -50,6 +55,11 @@ view: patient {
     sql: ${TABLE}.gender ;;
   }
 
+  dimension: health_service_area {
+    type: string
+    sql: ${TABLE}.health_service_area ;;
+  }
+
   dimension: last_name {
     type: string
     sql: ${TABLE}.last_name ;;
@@ -61,7 +71,7 @@ view: patient {
   }
 
   dimension: postal_code {
-    type: number
+    type: string
     sql: ${TABLE}.postal_code ;;
   }
 
@@ -77,6 +87,6 @@ view: patient {
 
   measure: count {
     type: count
-    drill_fields: [id, first_name, last_name]
+    drill_fields: [id, first_name, last_name,ssn, postal_code]
   }
 }
